@@ -869,7 +869,7 @@ cloudinit_write_files_common = <<EOT
 
     require {
         type kernel_t, bin_t, kernel_generic_helper_t, iscsid_t, iscsid_exec_t, var_run_t, var_lib_t,
-            init_t, unlabeled_t, systemd_logind_t, systemd_hostnamed_t, container_t,
+            init_t, devpts_t, unlabeled_t, systemd_logind_t, systemd_hostnamed_t, container_t,
             cert_t, container_var_lib_t, etc_t, usr_t, container_file_t, container_log_t,
             container_share_t, container_runtime_exec_t, container_runtime_t, var_log_t, proc_t, io_uring_t, fuse_device_t, http_port_t,
             container_var_run_t;
@@ -906,6 +906,7 @@ cloudinit_write_files_common = <<EOT
     allow init_t container_file_t:file { execute execute_no_trans };
     allow init_t fuse_device_t:chr_file { open read write };
     allow init_t http_port_t:tcp_socket name_connect;
+    allow init_t devpts_t:chr_file open;  # aws-mountpoint-s3 needs this
 
     #============= systemd_logind_t ==============
     allow systemd_logind_t unlabeled_t:dir search;
